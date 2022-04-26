@@ -17,7 +17,6 @@ Toolkit.run(
     const repo_url = pr.head.repo.html_url;
     const source_url = `${pr.head.repo.html_url}/tarball/${branch}`;
 
-    let actor = tools.context.payload.actor;
 
     let fork_repo_id;
     if (fork) {
@@ -33,7 +32,6 @@ Toolkit.run(
     });
 
     let action = tools.context.payload.action;
-    let actor = tools.context.actor;
 
     // We can delete a review app without them being a collaborator
     // as the only people that can close PRs are maintainers or the author
@@ -114,7 +112,7 @@ Toolkit.run(
         tools.log.success("Action complete");
         return;
       }
-
+      let new_source_url = `https://${tools.context.actor}:${process.env.GITHUB_TOKEN}@api.github.com/repos/`
       // Otherwise we can complete it in this run
       try {
         tools.log.pending("Creating review app");
@@ -123,7 +121,7 @@ Toolkit.run(
             branch,
             pipeline: process.env.HEROKU_PIPELINE_ID,
             source_blob: {
-              url: source_url.replace('https://github.com/', `https://${actor}:${process.env.GITHUB_TOKEN}@api.github.com/repos/`),
+              url: source_url.replace('https://github.com/', new_source_url),
               version,
             },
             fork_repo_id,
