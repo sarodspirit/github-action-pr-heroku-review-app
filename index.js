@@ -17,6 +17,8 @@ Toolkit.run(
     const repo_url = pr.head.repo.html_url;
     const source_url = `${pr.head.repo.html_url}/tarball/${branch}`;
 
+    let actor = tools.context.payload.actor;
+
     let fork_repo_id;
     if (fork) {
       fork_repo_id = pr.head.repo.id;
@@ -31,6 +33,7 @@ Toolkit.run(
     });
 
     let action = tools.context.payload.action;
+    let actor = tools.context.actor;
 
     // We can delete a review app without them being a collaborator
     // as the only people that can close PRs are maintainers or the author
@@ -120,7 +123,7 @@ Toolkit.run(
             branch,
             pipeline: process.env.HEROKU_PIPELINE_ID,
             source_blob: {
-              url: source_url,
+              url: source_url.replace('https://github.com/', `https://${actor}:${process.env.GITHUB_TOKEN}@api.github.com/repos/`),
               version,
             },
             fork_repo_id,
