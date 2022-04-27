@@ -112,7 +112,7 @@ Toolkit.run(
         tools.log.success("Action complete");
         return;
       }
-      let new_source_url = `https://${tools.context.actor}:${process.env.GITHUB_TOKEN}@api.github.com/repos/`
+      let new_source_url = `https://${process.env.GITHUB_TOKEN}@api.github.com/repos/`
       // Otherwise we can complete it in this run
       try {
         tools.log.pending("Creating review app");
