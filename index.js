@@ -116,6 +116,19 @@ Toolkit.run(
       // Otherwise we can complete it in this run
       try {
         tools.log.pending("Creating review app");
+        let environment = {
+          GIT_REPO_URL: repo_url,
+        }
+        if (!!process.env.APP_TEMPLATE) {
+          tools.log.pending(`Pulling config from specified project: ${[process.env.APP_TEMPLATE]}`);
+          const template = await heroku.get(`/apps/${process.env.APP_TEMPLATE}/config-vars`);
+          const excludedVars = process.env.EXCLUDE_APP_ENVS || ['REDIS_URL', 'SESSION_STORE_URL']
+          const parentEnv = Object.keys(template).filter(k => !excludedVars.includes(k)).reduce((memo, key) => {
+            memo[key] = template[key];
+            return memo
+          }, {})
+          environment = { ...environment, ...parentEnv }
+        }
         const resp = await heroku.post("/review-apps", {
           body: {
             branch,
@@ -126,9 +139,7 @@ Toolkit.run(
             },
             fork_repo_id,
             pr_number,
-            environment: {
-              GIT_REPO_URL: repo_url,
-            },
+            environment,
           },
         });
         tools.log.complete("Created review app");

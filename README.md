@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Heroku Review Application
-        uses: mheap/github-action-pr-heroku-review-app@master
+        uses: sarodspirit/github-action-pr-heroku-review-app@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -32,3 +32,5 @@ jobs:
 | GITHUB_TOKEN       | The GitHub auth token, used to authenticate API requests. Use the value provided in `${{ secrets.GITHUB_TOKEN }}` |
 | HEROKU_API_TOKEN   | The API key used to communicate with Heroku                                                                       |
 | HEROKU_PIPELINE_ID | The Heroku pipeline to trigger a review app in                                                                    |
+| APP_TEMPLATE       | Name of the application to copy the config from                                                                   |
+| EXCLUDE_APP_ENVS   | Array of ENV_VARS to exclude from the parents config, defaults to (REDIS_URL and SESSION_STORE_URL)               |
