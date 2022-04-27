@@ -112,7 +112,7 @@ Toolkit.run(
         tools.log.success("Action complete");
         return;
       }
-      let new_source_url = `https://${process.env.GITHUB_TOKEN}@api.github.com/repos/`
+      let new_source_url = `https://${process.env.PAT_TOKEN}@api.github.com/repos/`
       // Otherwise we can complete it in this run
       try {
         tools.log.pending("Creating review app");
@@ -167,6 +167,6 @@ Toolkit.run(
       "pull_request_target.labeled",
       "pull_request_target.closed",
     ],
-    secrets: ["GITHUB_TOKEN", "HEROKU_API_TOKEN", "HEROKU_PIPELINE_ID"],
+    secrets: ["GITHUB_TOKEN", "HEROKU_API_TOKEN", "HEROKU_PIPELINE_ID", "PAT_TOKEN"],
   }
 );
