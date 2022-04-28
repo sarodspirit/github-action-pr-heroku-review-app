@@ -27,10 +27,9 @@ jobs:
 
 ### Environment Variables
 
-| Name               | Description                                                                                                       |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| GITHUB_TOKEN       | The GitHub auth token, used to authenticate API requests. Use the value provided in `${{ secrets.GITHUB_TOKEN }}` |
-| HEROKU_API_TOKEN   | The API key used to communicate with Heroku                                                                       |
-| HEROKU_PIPELINE_ID | The Heroku pipeline to trigger a review app in                                                                    |
-| APP_TEMPLATE       | Name of the application to copy the config from                                                                   |
-| EXCLUDE_APP_ENVS   | Array of ENV_VARS to exclude from the parents config, defaults to (REDIS_URL and SESSION_STORE_URL)               |
+| Name                  | Description                                                                                                       |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| GITHUB_TOKEN          | The GitHub auth token, used to authenticate API requests. Use the value provided in `${{ secrets.GITHUB_TOKEN }}` |
+| HEROKU_API_TOKEN      | The API key used to communicate with Heroku                                                                       |
+| HEROKU_PIPELINE_ID    | The Heroku pipeline to trigger a review app in                                                                    |
+| REVIEW_APP_LABEL_NAME | The label to identify review apps (defaults to review-app)                                                        |

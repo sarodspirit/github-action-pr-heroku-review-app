@@ -3,7 +3,6 @@ const { Toolkit } = require("actions-toolkit");
 const Heroku = require("heroku-client");
 const heroku = new Heroku({ token: process.env.HEROKU_API_TOKEN });
 
-// Run your GitHub Action!
 Toolkit.run(
   async (tools) => {
     const pr = tools.context.payload.pull_request;
@@ -28,7 +27,7 @@ Toolkit.run(
       version,
       fork,
       pr_number,
-      source_url,
+      repo_url,
     });
 
     let action = tools.context.payload.action;
@@ -88,7 +87,7 @@ Toolkit.run(
       createReviewApp = true;
       await tools.github.issues.addLabels({
         ...tools.context.repo,
-        labels: ["review-app"],
+        labels: [reviewAppLabelName],
         issue_number: pr_number,
       });
     } else if (action === "labeled") {
