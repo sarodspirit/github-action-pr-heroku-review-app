@@ -14,7 +14,7 @@ Toolkit.run(
     const fork = pr.head.repo.fork;
     const pr_number = pr.number;
     const repo_url = pr.head.repo.html_url;
-    const source_url = `${pr.head.repo.html_url}/tarball/master`;
+    const source_url = `${pr.head.repo.html_url}/tarball/main`;
 
 
     let fork_repo_id;
@@ -111,8 +111,8 @@ Toolkit.run(
         tools.log.success("Action complete");
         return;
       }
-      let new_source_url = `https://${tools.context.actor}:${process.env.GITHUB_TOKEN}@api.github.com/repos/`
-      // Otherwise we can complete it in this run
+      let new_source_url = source_url.replace('https://github.com/', `https://${tools.context.actor}:${process.env.GITHUB_TOKEN}@api.github.com/repos/`)
+      tools.log.info(`Source_URL is: ${new_source_url.replace(process.env.GITHUB_TOKEN, 'MASKED_TOKEN')}`)
       try {
         tools.log.pending("Creating review app");
         const resp = await heroku.post("/review-apps", {
@@ -120,7 +120,7 @@ Toolkit.run(
             branch,
             pipeline: process.env.HEROKU_PIPELINE_ID,
             source_blob: {
-              url: source_url.replace('https://github.com/', new_source_url),
+              url: new_source_url,
               version,
             },
             fork_repo_id,
